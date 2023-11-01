@@ -1,0 +1,25 @@
+syntax = "proto3";
+package rent;
+
+option go_package="pb/rent";
+
+import "google/api/annotations.proto";
+
+message Type {
+    string category = 1;
+}
+
+message Apartment {
+    string type = 1;
+    string location = 2;
+    string price = 3;
+}
+
+service AgentService {
+    rpc Rent (Type) returns (Apartment) {
+        option(google.api.http) = {
+            post: "/rent"
+            body: "*"
+        };
+    }
+}

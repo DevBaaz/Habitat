@@ -1,0 +1,16 @@
+syntax = "proto3";
+package proto;
+
+option go_package="pb/check";
+
+message Poke {
+    string greet = 1;
+}
+
+message Count { 
+    int64 answer = 1;
+}
+
+service Check {
+    rpc Greet (Poke) returns (Count);
+}
