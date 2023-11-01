@@ -1,9 +1,10 @@
 package db
 
 import (
-	"gorm.io/datatypes"
-	"github.com/joho/godotenv"
 	"os"
+
+	"github.com/joho/godotenv"
+	"gorm.io/datatypes"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -36,7 +37,8 @@ func UsersDB() *gorm.DB {
 		panic("Unable To Access Environment Data")
 	}
 
-	db, err := gorm.Open(postgres.Open(os.Getenv("DATABASE_DSN")), &gorm.Config{})
+	var db *gorm.DB
+	db, err = gorm.Open(postgres.Open(os.Getenv("DATABASE_DSN")), &gorm.Config{})
 
 	if err != nil {
 		panic("Unable To Open Database")
