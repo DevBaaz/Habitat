@@ -1,11 +1,12 @@
 package db
 
 import (
-	"log"
+	"github.com/joho/godotenv"
+	"os"
 
 	"gorm.io/datatypes"
 
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -37,11 +38,23 @@ type Comments struct {
 }
 
 func EstatesDB() *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("tmp/general.db"), &gorm.Config{})
-	if err == nil {
-		err = db.AutoMigrate()
-	} else {
-		log.Println("error creating databse")
+	err := godotenv.Load(".env")
+	if err != nil {
+		panic("Unable To Access Environment Data")
 	}
+
+	var db *gorm.DB
+	db, err = gorm.Open(postgres.Open(os.Getenv("DATABASE_DSN")), &gorm.Config{})
+
+	if err != nil {
+		panic("Unable To Open Database")
+	}
+
+	err = db.AutoMigrate(&User{})
+	if err != nil {
+		panic("Unable To Migrate Database")
+
+	}
+	
 	return db
 }
