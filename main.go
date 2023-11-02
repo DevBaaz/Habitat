@@ -30,7 +30,7 @@ func main() {
 	e.Use(middleware.CORS())
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = ":8080"
 	}
 	e.Logger.Fatal(e.Start(port))
 }
